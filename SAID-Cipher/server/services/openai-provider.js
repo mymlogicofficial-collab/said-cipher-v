@@ -7,7 +7,7 @@ const openai = new OpenAI({
 
 const provider = {
   name: "openai",
-  capabilities: ["chat", "image-generation", "audio-transcription", "image-analysis"],
+  capabilities: ["chat", "image-generation", "audio-transcription", "image-analysis", "text-to-speech"],
 
   async chat(messages, options = {}) {
     const model = options.model || "gpt-4o";
@@ -74,6 +74,31 @@ const provider = {
     });
     return { content: response.choices[0]?.message?.content || "" };
   },
+
+  async textToSpeech(text, options = {}) {
+    const voice = options.voice || "alloy";
+    const model = options.model || "tts-1";
+    const speed = options.speed || 1.0;
+
+    const response = await openai.audio.speech.create({
+      model,
+      voice,
+      input: text,
+      speed,
+    });
+
+    // Convert response to base64 for JSON transport
+    const buffer = await response.arrayBuffer();
+    const base64 = Buffer.from(buffer).toString("base64");
+
+    return {
+      audio_base64: base64,
+      format: "mp3",
+      voice,
+      model,
+    };
+  },
 };
 
 module.exports = { provider, openai };
+
