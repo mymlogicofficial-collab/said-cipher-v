@@ -55,7 +55,7 @@ function createServer(port = 9471) {
   // ── Engine switch endpoint ────────────────────────────────────────────────
   app.post("/api/engine/set", (req, res) => {
     const { provider, model } = req.body;
-    if (!["openai", "ollama"].includes(provider)) {
+    if (![\"openai\", \"ollama\"].includes(provider)) {
       return res.status(400).json({ error: "Unknown provider" });
     }
     cradle.setDefaultProvider(provider);
@@ -65,8 +65,8 @@ function createServer(port = 9471) {
   });
 
   return new Promise((resolve, reject) => {
-    const server = app.listen(port, "127.0.0.1", async () => {
-      console.log("[SERVER] API running on http://127.0.0.1:" + port);
+    const server = app.listen(port, "0.0.0.0", async () => {
+      console.log("[SERVER] API running on http://0.0.0.0:" + port);
       await detectEngine();
       resolve(server);
     });
@@ -75,3 +75,4 @@ function createServer(port = 9471) {
 }
 
 module.exports = { createServer };
+
