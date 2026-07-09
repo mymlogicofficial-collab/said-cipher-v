@@ -1,16 +1,22 @@
 const OpenAI = require("openai");
 
+// OpenRouter API compatible with OpenAI SDK
 const openai = new OpenAI({
-  apiKey: process.env.AI_INTEGRATIONS_OPENAI_API_KEY,
-  baseURL: process.env.AI_INTEGRATIONS_OPENAI_BASE_URL,
+  apiKey: process.env.OPENROUTER_API_KEY,
+  baseURL: "https://openrouter.io/api/v1",
+  defaultHeaders: {
+    "HTTP-Referer": "https://mymlogic.com",
+    "X-Title": "S.A.I.D. Cipher",
+  },
 });
 
 const provider = {
-  name: "openai",
+  name: "openrouter",
   capabilities: ["chat", "image-generation", "audio-transcription", "image-analysis", "text-to-speech"],
 
   async chat(messages, options = {}) {
-    const model = options.model || "gpt-4o";
+    // Default to Claude 3.5 Sonnet on OpenRouter (excellent quality/cost ratio)
+    const model = options.model || "anthropic/claude-3.5-sonnet";
     const formattedMessages = messages.map((m) => ({
       role: m.role,
       content: m.content,
@@ -30,8 +36,21 @@ const provider = {
   },
 
   async generateImage(prompt, options = {}) {
-    const response = await openai.images.generate({
-      model: "gpt-image-1",
+    // OpenRouter doesn't have native image generation, fallback to DALL-E via OpenAI
+    // For production, consider using a dedicated image service or OpenRouter's available models
+    if (!process.env.OPENAI_API_KEY) {
+      return {
+        error: true,
+        message: "Image generation requires OPENAI_API_KEY. Set it in environment variables.",
+      };
+    }
+
+    const openaiDirect = new OpenAI({
+      apiKey: process.env.OPENAI_API_KEY,
+    });
+
+    const response = await openaiDirect.images.generate({
+      model: "dall-e-3",
       prompt,
       n: 1,
       size: options.size || "1024x1024",
@@ -45,27 +64,44 @@ const provider = {
   },
 
   async transcribeAudio(audioBuffer, options = {}) {
+    // OpenRouter doesn't have audio transcription, use OpenAI's Whisper
+    if (!process.env.OPENAI_API_KEY) {
+      return {
+        error: true,
+        message: "Audio transcription requires OPENAI_API_KEY. Set it in environment variables.",
+      };
+    }
+
+    const openaiDirect = new OpenAI({
+      apiKey: process.env.OPENAI_API_KEY,
+    });
+
     const { toFile } = require("openai");
     const file = await toFile(audioBuffer, "audio.wav");
-    const response = await openai.audio.transcriptions.create({
+    const response = await openaiDirect.audio.transcriptions.create({
       file,
-      model: "gpt-4o-mini-transcribe",
+      model: "whisper-1",
     });
     return { text: response.text };
   },
 
   async analyzeImage(imageBuffer, prompt, options = {}) {
+    // Use Claude 3.5 Sonnet on OpenRouter for image analysis (excellent vision capabilities)
     const base64 = imageBuffer.toString("base64");
     const response = await openai.chat.completions.create({
-      model: "gpt-4o",
+      model: "anthropic/claude-3.5-sonnet",
       messages: [
         {
           role: "user",
           content: [
             { type: "text", text: prompt },
             {
-              type: "image_url",
-              image_url: { url: "data:image/png;base64," + base64 },
+              type: "image",
+              source: {
+                type: "base64",
+                media_type: "image/png",
+                data: base64,
+              },
             },
           ],
         },
@@ -76,11 +112,23 @@ const provider = {
   },
 
   async textToSpeech(text, options = {}) {
+    // OpenRouter doesn't have TTS, use OpenAI's TTS
+    if (!process.env.OPENAI_API_KEY) {
+      return {
+        error: true,
+        message: "Text-to-speech requires OPENAI_API_KEY. Set it in environment variables.",
+      };
+    }
+
+    const openaiDirect = new OpenAI({
+      apiKey: process.env.OPENAI_API_KEY,
+    });
+
     const voice = options.voice || "alloy";
     const model = options.model || "tts-1";
     const speed = options.speed || 1.0;
 
-    const response = await openai.audio.speech.create({
+    const response = await openaiDirect.audio.speech.create({
       model,
       voice,
       input: text,
