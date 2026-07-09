@@ -1,11 +1,32 @@
 (function () {
   if (window.api && window.terminal && window.metrics) return;
 
-  const API_BASE = window.location.origin;
+  // Support both local (Electron) and remote (Railway) backends
+  // Priority: RAILWAY_BACKEND_URL env var > localStorage > window.location.origin (local)
+  let API_BASE = window.location.origin;
+  
+  // Check if running in Electron with environment variable
+  if (window.__RAILWAY_BACKEND_URL__) {
+    API_BASE = window.__RAILWAY_BACKEND_URL__;
+  }
+  
+  // Check localStorage for user-configured backend
+  const storedBackend = localStorage.getItem("cipher_backend_url");
+  if (storedBackend) {
+    API_BASE = storedBackend;
+  }
 
   window.api = {
     port: 5000,
     baseUrl: API_BASE,
+    setBackendUrl(url) {
+      API_BASE = url;
+      localStorage.setItem("cipher_backend_url", url);
+      console.log("[API] Backend URL set to:", url);
+    },
+    getBackendUrl() {
+      return API_BASE;
+    },
     async fetch(endpoint, options = {}) {
       const url = API_BASE + endpoint;
       const defaults = { headers: { "Content-Type": "application/json" } };
@@ -90,3 +111,4 @@
     }
   }, 1000);
 })();
+
