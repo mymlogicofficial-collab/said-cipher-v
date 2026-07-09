@@ -60,7 +60,7 @@ function createServer(port = 9471) {
   // ── Engine switch endpoint ────────────────────────────────────────────────
   app.post("/api/engine/set", (req, res) => {
     const { provider, model } = req.body;
-    if (![\"openai\", \"ollama\"].includes(provider)) {
+    if (!["openai", "ollama"].includes(provider)) {
       return res.status(400).json({ error: "Unknown provider" });
     }
     cradle.setDefaultProvider(provider);
