@@ -7,13 +7,17 @@
  */
 
 require('dotenv').config();
-const server = require('./server/index.js');
+const { createServer } = require('./server/index.js');
 
 const PORT = process.env.PORT || 9471;
 
-server.listen(PORT, () => {
-  console.log(`\n✓ Cipher Backend running on port ${PORT}`);
-  console.log(`✓ Health check: http://localhost:${PORT}/health`);
-  console.log(`✓ API endpoints ready\n`);
-});
+createServer(PORT)
+  .then(() => {
+    console.log(`✓ Cipher Backend listening on port ${PORT}`);
+    console.log(`✓ Health check: http://localhost:${PORT}/health`);
+  })
+  .catch(err => {
+    console.error('Failed to start server:', err);
+    process.exit(1);
+  });
 
