@@ -283,4 +283,30 @@ router.post("/image/analyze", upload.single("image"), async (req, res) => {
   }
 });
 
+router.post("/text-to-speech", async (req, res) => {
+  try {
+    if (!req.body.text) {
+      return res.status(400).json({ error: "Text is required" });
+    }
+
+    const options = {
+      voice: req.body.voice || "alloy",
+      model: req.body.model || "tts-1",
+      speed: req.body.speed || 1.0,
+    };
+
+    const result = await cradle.textToSpeech(req.body.text, options);
+
+    if (result.error) {
+      return res.status(500).json({ error: result.message });
+    }
+
+    res.json(result);
+  } catch (err) {
+    console.error("[CHAT] Text-to-speech error:", err.message);
+    res.status(500).json({ error: "Text-to-speech failed: " + err.message });
+  }
+});
+
 module.exports = router;
+

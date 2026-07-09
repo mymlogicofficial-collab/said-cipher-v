@@ -85,8 +85,20 @@ class AICradle {
     }
     return provider.analyzeImage(imageBuffer, prompt, options);
   }
+
+  async textToSpeech(text, options = {}) {
+    const provider = this.getProvider(options.provider);
+    if (!provider || !provider.textToSpeech) {
+      return {
+        error: true,
+        message: "No text-to-speech provider configured.",
+      };
+    }
+    return provider.textToSpeech(text, options);
+  }
 }
 
 const cradle = new AICradle();
 
 module.exports = cradle;
+
