@@ -1,0 +1,13 @@
+{
+    "type": "service_account",
+    "project_id": "mym-logic-llc",
+    "private_key_id": "fe910eaf50030d490436e77f701a13630a29975b",
+    "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQDEu+dU7HzVKnoL\nGYmwBQHE0wQt7jA3+/uyr8mipiqA8ZoyKKcqRbEEVmjDI3a4EavxLuW/CDS+Dl8y\nVsiIX9yhnW/E6mEAYRmYFiVQ5ounfuVjntm8zWGXDJfP74qoP2BB2BFAvjBYtAaS\nWm+05Js28bdfsx22cfCF2jO1iqGwsWrvKaDG2ei/CDjtviFWo99gG2DwO8+p0vsG\nSJ6t50hGOvy30KBq71ywKkIf4XT9g8YAs81i5W0gH99VjkMtsoLkhd/6uFLTBPSk\nZlN7Zf8sPV0kCD59U6psOokCNuO3wWsBbmZmInhouTU750s+DV3GIyyp2FGvGa8d\nPqvOojANAgMBAAECggEAJHUx9IHyzEoX3dC4vF7hKgl039IhK27OARokgrjKbaTY\nT21LNUE/Aa/FsEv1Jz1XINXxC4rIw2PEbn64oNUq/ORBHzvUCA72gEGyXqCqxrp0\nZha9AQkKicRyqb0Zc/5ypyEUaWwVZ4rNIPgTdXFb9j2rHtgBrJrG2PdL19u+BRE4\nq0tBR4jLnGoZzD/qg/A1dV4DmZSAS5CrQfAOYw9WVMy1iKvssaf9a5Fg39r3Rv/d\nqbmzV6QDwE1RicsKMuPmJ/Vet43cHITJ6ILnYYy39fS53hhJOHVYy1fKblSW4lY4\n76NkC9+gRBI3R2BFBSpnZdZQSYnUpJe+z02ZxRoqgQKBgQDmsHo/++Ab/K9w+Ecx\niWEO0sOLQwPtLI25xW7LNZR86olJUdMTxZtfGK47Pao82yUPckFlYsIfQS/3dEB/\n8ua8BhQHN4hemjmH5l4eG3E5LEIG81VOWfcQLGFLzL7s/shWm4UDohNRBberlDeQ\nqLh0io/+RTrl9WIApfUUAtrl4QKBgQDaUbMY0FQDaWFFdCHTfwtDm7VyEUwqPVb8\nWwYgYizzMaQ0E090COkD0bqfANNC+CrjSz2U7tiNFDjyVS6RADIB2ZXl5WLCsz4V\nYtmQUc9usveRPDnK4GIJFl/k6Gz/k77wZhLKd5fC9BSASJw5Bl4Rgkdb13hMKW0T\nY7JfkIG3rQKBgEEoka8m5pshGTDQf9NnGUoFkAPyztYb4oAZWvz8yk8qM9LI0NTh\n2MvYfcXv2fjMcUBWplALwAbx86lyZZF+O1vaX6fWMKd/6kYPdIAOgkGC1bd+3ZZ+\n5MDluCmf0EHCiTWlQcHP8qLM+Z72A2fRsCACzz8jsMopMCA8v+eCEvAhAoGAOMY0\nUAilQHngHOK1hT2tnThZ+D79UqK/A0NclYFSdS/8pro62E8U4bRh1sWtKuZEqPVB\nH4D5eb6/jG2QfY7Scl62N6Hui/l29LLPJ1PPINeTwAYsdVDizcAu0eWLqu8uIXA6\nBMMTCVTWHAJF9iJsxhreGckv9IZ1Yix0D5wRz8UCgYEA4sCzjhsCJhherLEAmOP7\n0cQq6CqhYhM8vWNdDhA/2+Faa5w0128aU+9KBiZ4Ge9S1V4s1B1uoogfndJ/uq9I\nT4VtlWvb+YM97VwAsy4gjZFJWPxNdeD8IKNKKgb42zB9EaYaa2W9aHyCCQz3v0mi\nanEVJEJD6pjEcyE+M0XRVP8=\n-----END PRIVATE KEY-----\n",
+    "client_email": "id-v-graphics-engine-e-fleet@mym-logic-llc.iam.gserviceaccount.com",
+    "client_id": "118326454213924179461",
+    "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+    "token_uri": "https://oauth2.googleapis.com/token",
+    "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+    "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/id-v-graphics-engine-e-fleet%40mym-logic-llc.iam.gserviceaccount.com",
+    "universe_domain": "googleapis.com"
+}

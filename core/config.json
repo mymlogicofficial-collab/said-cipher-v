@@ -1,0 +1,23 @@
+{
+  "identity": {
+    "name": "S.A.I.D.",
+    "alias": "Cipher",
+    "version": "1.0.0",
+    "organization": "MYM Logic LLC"
+  },
+  "protectedPaths": [
+    "core/",
+    "main.js",
+    "preload.js",
+    "server/services/guardian.js"
+  ],
+  "protectedPatterns": [
+    "*.key",
+    "*.pem",
+    "*.env"
+  ],
+  "ai": {
+    "defaultProvider": "openai",
+    "providers": {}
+  }
+}

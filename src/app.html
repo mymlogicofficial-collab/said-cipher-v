@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>S.A.I.D. — Cipher</title>
+  <link rel="stylesheet" href="/node_modules/xterm/css/xterm.css" />
+  <link rel="stylesheet" href="/src/styles/main.css" />
+  <link rel="stylesheet" href="/src/styles/panels.css" />
+</head>
+<body>
+  <div id="app">
+    <header id="titlebar">
+      <div class="title-left">
+        <span class="brand">S.A.I.D.</span>
+        <span class="separator">|</span>
+        <span class="sub">Cipher</span>
+      </div>
+      <nav class="tab-bar">
+        <button class="tab active" data-panel="dashboard">Dashboard</button>
+        <button class="tab" data-panel="chat">Chat</button>
+        <button class="tab" data-panel="editor">Code</button>
+        <button class="tab" data-panel="files">Files</button>
+        <button class="tab" data-panel="terminal">Terminal</button>
+      </nav>
+      <div class="title-right">
+        <div id="cipher-status" class="cipher-status">
+          <span class="cipher-dot"></span>
+          <span class="cipher-label">Cipher Online</span>
+        </div>
+        <span class="org">MYM Logic LLC</span>
+      </div>
+    </header>
+
+    <main id="panel-container">
+      <section id="panel-dashboard" class="panel active">
+        <div id="kpi-panel">
+          <div class="kpi-header">
+            <span class="kpi-title">SYSTEM KPIs</span>
+            <div class="kpi-stats">
+              <span id="stat-cpu" class="stat-badge">CPU: --</span>
+              <span id="stat-mem" class="stat-badge">MEM: --</span>
+              <span id="stat-load" class="stat-badge">LOAD: --</span>
+              <span id="stat-uptime" class="stat-badge">UP: --</span>
+            </div>
+          </div>
+          <div class="charts-row">
+            <div class="chart-box"><canvas id="cpuChart"></canvas></div>
+            <div class="chart-box"><canvas id="memChart"></canvas></div>
+            <div class="chart-box"><canvas id="loadChart"></canvas></div>
+          </div>
+        </div>
+        <div id="dashboard-info">
+          <div class="info-card" id="system-info-card">
+            <h3>System</h3>
+            <div class="info-content">Loading...</div>
+          </div>
+          <div class="info-card" id="ai-status-card">
+            <h3>AI Cradle</h3>
+            <div class="info-content">Loading...</div>
+          </div>
+          <div class="info-card" id="protection-card">
+            <h3>Protected Zones</h3>
+            <div class="info-content">Loading...</div>
+          </div>
+        </div>
+      </section>
+
+      <section id="panel-chat" class="panel">
+        <div class="chat-layout">
+          <aside class="chat-sidebar">
+            <button id="new-chat-btn" class="action-btn">+ New Chat</button>
+            <div id="chat-list" class="chat-list"></div>
+          </aside>
+          <div class="chat-main">
+            <div id="chat-messages" class="chat-messages">
+              <div class="chat-welcome">
+                <div class="cipher-avatar">C</div>
+                <h2>Cipher</h2>
+                <p class="cipher-subtitle">S.A.I.D. AI Core</p>
+                <div class="cipher-capabilities">
+                  <div class="cap-item">Read &amp; write code</div>
+                  <div class="cap-item">Run commands</div>
+                  <div class="cap-item">Generate images</div>
+                  <div class="cap-item">Analyze files</div>
+                  <div class="cap-item">Search codebase</div>
+                  <div class="cap-item">Voice input</div>
+                </div>
+                <p class="chat-hint">Type a message or click + New Chat to begin</p>
+              </div>
+            </div>
+            <div class="chat-input-bar">
+              <div class="chat-controls">
+                <button id="voice-btn" class="icon-btn" title="Voice Input">&#127908;</button>
+                <button id="attach-btn" class="icon-btn" title="Attach File">&#128206;</button>
+              </div>
+              <textarea id="chat-input" placeholder="Type a message..." rows="1"></textarea>
+              <button id="send-btn" class="icon-btn send" title="Send">&#9654;</button>
+              <input type="file" id="file-attach" accept="*/*" multiple hidden />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="panel-editor" class="panel">
+        <div class="editor-layout">
+          <aside class="editor-sidebar">
+            <div class="editor-sidebar-header">
+              <span>FILES</span>
+            </div>
+            <div id="editor-file-tree" class="file-tree"></div>
+          </aside>
+          <div class="editor-main">
+            <div class="editor-tabs" id="editor-tabs"></div>
+            <div id="editor-container" class="editor-container">
+              <div class="editor-placeholder">Select a file to edit</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="panel-files" class="panel">
+        <div class="files-layout">
+          <div class="files-toolbar">
+            <span id="files-path" class="files-path">/</span>
+            <button id="files-up-btn" class="action-btn small">Up</button>
+            <button id="files-refresh-btn" class="action-btn small">Refresh</button>
+          </div>
+          <div id="files-grid" class="files-grid"></div>
+        </div>
+      </section>
+
+      <section id="panel-terminal" class="panel">
+        <div id="terminal-container"></div>
+      </section>
+    </main>
+  </div>
+
+  <script src="/node_modules/xterm/lib/xterm.js"></script>
+  <script src="/node_modules/xterm-addon-fit/lib/xterm-addon-fit.js"></script>
+  <script src="/node_modules/chart.js/dist/chart.umd.js"></script>
+  <script src="/node_modules/ace-builds/src-min-noconflict/ace.js"></script>
+  <script src="/node_modules/ace-builds/src-min-noconflict/theme-one_dark.js"></script>
+  <script src="/src/browser-shim.js"></script>
+  <script>
+    window.addEventListener("error", function(e) {
+      console.error("[SAID] Error:", e.message, e.filename, e.lineno);
+    });
+  </script>
+  <script src="/src/panels/tabs.js"></script>
+  <script src="/src/panels/dashboard.js"></script>
+  <script src="/src/panels/chat.js"></script>
+  <script src="/src/panels/editor.js"></script>
+  <script src="/src/panels/file-browser.js"></script>
+  <script src="/src/panels/terminal-panel.js"></script>
+</body>
+</html>

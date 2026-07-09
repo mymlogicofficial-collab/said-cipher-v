@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>S.A.I.D. — Cipher</title>
+  <link rel="stylesheet" href="../node_modules/xterm/css/xterm.css" />
+  <link rel="stylesheet" href="styles/main.css" />
+  <link rel="stylesheet" href="styles/panels.css" />
+</head>
+<body>
+  <div id="app">
+    <header id="titlebar">
+      <div class="title-left">
+        <span class="brand">S.A.I.D.</span>
+        <span class="separator">|</span>
+        <span class="sub">Cipher</span>
+      </div>
+      <nav class="tab-bar">
+        <button class="tab active" data-panel="dashboard">Dashboard</button>
+        <button class="tab" data-panel="chat">Chat</button>
+        <button class="tab" data-panel="studio">Studio</button>
+        <button class="tab" data-panel="editor">Code</button>
+        <button class="tab" data-panel="files">Files</button>
+        <button class="tab" data-panel="terminal">Terminal</button>
+        <button class="tab" data-panel="identity">Admin</button>
+      </nav>
+      <div class="title-right">
+        <div id="cipher-status" class="cipher-status">
+          <span class="cipher-dot"></span>
+          <span class="cipher-label">Cipher Online</span>
+        </div>
+        <span class="org">MYM Logic LLC</span>
+      </div>
+    </header>
+
+    <main id="panel-container">
+
+      <!-- DASHBOARD -->
+      <section id="panel-dashboard" class="panel active">
+        <div id="kpi-panel">
+          <div class="kpi-header">
+            <span class="kpi-title">SYSTEM KPIs</span>
+            <div class="kpi-stats">
+              <span id="stat-cpu" class="stat-badge">CPU: --</span>
+              <span id="stat-mem" class="stat-badge">MEM: --</span>
+              <span id="stat-load" class="stat-badge">LOAD: --</span>
+              <span id="stat-uptime" class="stat-badge">UP: --</span>
+            </div>
+          </div>
+          <div class="charts-row">
+            <div class="chart-box"><canvas id="cpuChart"></canvas></div>
+            <div class="chart-box"><canvas id="memChart"></canvas></div>
+            <div class="chart-box"><canvas id="loadChart"></canvas></div>
+          </div>
+        </div>
+        <div id="dashboard-info">
+          <div class="info-card" id="system-info-card"><h3>System</h3><div class="info-content">Loading...</div></div>
+          <div class="info-card" id="ai-status-card"><h3>AI Cradle</h3><div class="info-content">Loading...</div></div>
+          <div class="info-card" id="protection-card"><h3>Protected Zones</h3><div class="info-content">Loading...</div></div>
+        </div>
+      </section>
+
+      <!-- CHAT -->
+      <section id="panel-chat" class="panel">
+        <div class="chat-layout">
+          <aside class="chat-sidebar">
+            <button id="new-chat-btn" class="action-btn">+ New Chat</button>
+            <div id="chat-list" class="chat-list"></div>
+          </aside>
+          <div class="chat-main">
+            <div id="chat-messages" class="chat-messages">
+              <div class="chat-welcome">
+                <div class="cipher-avatar">C</div>
+                <h2>Cipher</h2>
+                <p class="cipher-subtitle">S.A.I.D. AI Core</p>
+                <div class="cipher-capabilities">
+                  <div class="cap-item">Read &amp; write code</div>
+                  <div class="cap-item">Run commands</div>
+                  <div class="cap-item">Generate images</div>
+                  <div class="cap-item">Analyze files</div>
+                  <div class="cap-item">Search codebase</div>
+                  <div class="cap-item">Voice input</div>
+                </div>
+                <p class="chat-hint">Type a message or click + New Chat to begin</p>
+              </div>
+            </div>
+            <div id="engine-bar" class="engine-bar">
+              <span id="engine-indicator" class="engine-pill">⟳ detecting...</span>
+              <span id="engine-model" class="engine-model"></span>
+              <div class="engine-spacer"></div>
+              <select id="engine-model-select" class="engine-select" title="Select model"></select>
+              <button id="engine-toggle-btn" class="engine-toggle-btn" title="Switch engine">🖥️ LOCAL</button>
+            </div>
+            <div class="chat-input-bar">
+              <div class="chat-controls">
+                <button id="voice-btn" class="icon-btn" title="Voice Input">&#127908;</button>
+                <button id="attach-btn" class="icon-btn" title="Attach File">&#128206;</button>
+              </div>
+              <textarea id="chat-input" placeholder="Type a message..." rows="1"></textarea>
+              <button id="send-btn" class="icon-btn send" title="Send">&#9654;</button>
+              <input type="file" id="file-attach" accept="*/*" multiple hidden />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- STUDIO -->
+      <section id="panel-studio" class="panel">
+        <div class="studio-layout">
+          <div class="studio-tabs">
+            <button class="studio-tab active" data-tab="image">🖼 Image</button>
+            <button class="studio-tab" data-tab="voice">🎙 Voice</button>
+            <button class="studio-tab" data-tab="video">🎬 Video</button>
+          </div>
+
+          <!-- IMAGE GEN -->
+          <div id="studio-image" class="studio-section active">
+            <div class="studio-controls">
+              <label class="studio-label">Model</label>
+              <select id="img-model-sel" class="studio-select"></select>
+              <label class="studio-label">Prompt</label>
+              <textarea id="img-prompt" class="studio-textarea" placeholder="Describe the image you want to create..." rows="3"></textarea>
+              <button id="img-gen-btn" class="studio-btn">✦ Generate Image</button>
+              <span id="img-status" class="studio-status"></span>
+            </div>
+            <div id="img-results" class="studio-results"></div>
+          </div>
+
+          <!-- VOICE / TTS + ANALYZE -->
+          <div id="studio-voice" class="studio-section">
+            <div class="studio-controls">
+              <label class="studio-label">Text to Speech</label>
+              <label class="studio-sublabel">Voice</label>
+              <select id="tts-voice-sel" class="studio-select"></select>
+              <textarea id="tts-text" class="studio-textarea" placeholder="Type what Cipher should say..." rows="3"></textarea>
+              <button id="tts-gen-btn" class="studio-btn">🎙 Generate Voice</button>
+              <span id="tts-status" class="studio-status"></span>
+            </div>
+            <div id="tts-results" class="studio-results"></div>
+
+            <div class="studio-divider">── Audio Analysis ──</div>
+            <div class="studio-controls">
+              <label class="studio-label">Analyze Audio File</label>
+              <input type="file" id="analyze-audio-input" accept="audio/*" class="studio-file-input" />
+              <input type="text" id="analyze-audio-prompt" class="studio-input" placeholder="What do you want to know? (e.g. 'transcribe this', 'what mood is this?')" />
+              <button id="analyze-audio-btn" class="studio-btn">🔬 Analyze</button>
+              <pre id="analyze-result" class="studio-pre"></pre>
+            </div>
+          </div>
+
+          <!-- VIDEO GEN -->
+          <div id="studio-video" class="studio-section">
+            <div class="studio-controls">
+              <label class="studio-label">Model</label>
+              <select id="vid-model-sel" class="studio-select"></select>
+              <label class="studio-sublabel">⚠ Requires REPLICATE_API_KEY in .env — free at replicate.com</label>
+              <label class="studio-label">Prompt</label>
+              <textarea id="vid-prompt" class="studio-textarea" placeholder="Describe the video you want to generate..." rows="3"></textarea>
+              <button id="vid-gen-btn" class="studio-btn">🎬 Generate Video</button>
+              <span id="vid-status" class="studio-status"></span>
+            </div>
+            <div id="vid-results" class="studio-results"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- EDITOR -->
+      <section id="panel-editor" class="panel">
+        <div class="editor-layout">
+          <aside class="editor-sidebar">
+            <div class="editor-sidebar-header"><span>FILES</span></div>
+            <div id="editor-file-tree" class="file-tree"></div>
+          </aside>
+          <div class="editor-main">
+            <div class="editor-tabs" id="editor-tabs"></div>
+            <div id="editor-container" class="editor-container">
+              <div class="editor-placeholder">Select a file to edit</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- FILES -->
+      <section id="panel-files" class="panel">
+        <div class="files-layout">
+          <div class="files-toolbar">
+            <span id="files-path" class="files-path">/</span>
+            <button id="files-up-btn" class="action-btn small">Up</button>
+            <button id="files-refresh-btn" class="action-btn small">Refresh</button>
+          </div>
+          <div id="files-grid" class="files-grid"></div>
+        </div>
+      </section>
+
+      <!-- TERMINAL -->
+      <section id="panel-terminal" class="panel">
+        <div id="terminal-container"></div>
+      </section>
+
+      <!-- ADMIN -->
+      <section id="panel-identity" class="panel">
+      </section>
+    </main>
+  </div>
+
+  <script src="../node_modules/xterm/lib/xterm.js"></script>
+  <script src="../node_modules/xterm-addon-fit/lib/xterm-addon-fit.js"></script>
+  <script src="../node_modules/chart.js/dist/chart.umd.js"></script>
+  <script src="../node_modules/ace-builds/src-min-noconflict/ace.js"></script>
+  <script src="../node_modules/ace-builds/src-min-noconflict/theme-one_dark.js"></script>
+  <script src="panels/tabs.js"></script>
+  <script src="panels/dashboard.js"></script>
+  <script src="panels/chat.js"></script>
+  <script src="panels/studio.js"></script>
+  <script src="panels/editor.js"></script>
+  <script src="panels/file-browser.js"></script>
+  <script src="panels/terminal-panel.js"></script>
+  <script src="panels/admin.js"></script>
+</body>
+</html>
