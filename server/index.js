@@ -35,6 +35,11 @@ function createServer(port = 9471) {
   app.use(express.json({ limit: "100mb" }));
   app.use(express.urlencoded({ extended: true, limit: "100mb" }));
 
+  // ── Health check endpoint ────────────────────────────────────────────────
+  app.get("/health", (req, res) => {
+    res.status(200).json({ ok: true });
+  });
+
   app.use("/api/files",  filesRouter);
   app.use("/api/chat",   chatRouter);
   app.use("/api/system", systemRouter);
