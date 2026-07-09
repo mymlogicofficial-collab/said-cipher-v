@@ -24,6 +24,7 @@
         <button class="tab" data-panel="files">Files</button>
         <button class="tab" data-panel="terminal">Terminal</button>
         <button class="tab" data-panel="identity">Admin</button>
+        <button class="tab" data-panel="settings">⚙ Settings</button>
       </nav>
       <div class="title-right">
         <div id="cipher-status" class="cipher-status">
@@ -201,6 +202,10 @@
       <!-- ADMIN -->
       <section id="panel-identity" class="panel">
       </section>
+
+      <!-- SETTINGS -->
+      <section id="panel-settings" class="panel">
+      </section>
     </main>
   </div>
 
@@ -209,6 +214,7 @@
   <script src="../node_modules/chart.js/dist/chart.umd.js"></script>
   <script src="../node_modules/ace-builds/src-min-noconflict/ace.js"></script>
   <script src="../node_modules/ace-builds/src-min-noconflict/theme-one_dark.js"></script>
+  <script src="browser-shim.js"></script>
   <script src="panels/tabs.js"></script>
   <script src="panels/dashboard.js"></script>
   <script src="panels/chat.js"></script>
@@ -217,5 +223,7 @@
   <script src="panels/file-browser.js"></script>
   <script src="panels/terminal-panel.js"></script>
   <script src="panels/admin.js"></script>
+  <script src="panels/settings.js"></script>
 </body>
 </html>
+
