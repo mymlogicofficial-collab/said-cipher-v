@@ -39,5 +39,22 @@ app.use((req, res) => {
 app.listen(PORT, "0.0.0.0", () => {
   console.log(`[CIPHER] Backend running on http://0.0.0.0:${PORT}`);
   console.log(`[CIPHER] Health check: http://0.0.0.0:${PORT}/health`);
+#!/usr/bin/env node
+
+/**
+ * S.A.I.D. Cipher Backend Server
+ * Standalone Express server for Railway deployment
+ * Runs the backend API for multimodal AI agent
+ */
+
+require('dotenv').config();
+const server = require('./server/index.js');
+
+const PORT = process.env.PORT || 9471;
+
+server.listen(PORT, () => {
+  console.log(`\n✓ Cipher Backend running on port ${PORT}`);
+  console.log(`✓ Health check: http://localhost:${PORT}/health`);
+  console.log(`✓ API endpoints ready\n`);
 });
 
